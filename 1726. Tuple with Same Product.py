@@ -32,28 +32,14 @@
 
 class Solution:
     def tupleSameProduct(self, nums: List[int]) -> int:
-        n = len(nums)
-        product_count = {}
-        num_of_tuples = 0
-        
-        # Calculate all possible products and store their indices
-        for i in range(n):
-            for j in range(i + 1, n):
+        product_map = {}
+        count = 0
+        for i in range(len(nums)):
+            for j in range(i + 1, len(nums)):
                 product = nums[i] * nums[j]
-                if product in product_count:
-                    product_count[product].append((i, j))
+                if product in product_map:
+                    count += product_map[product]
+                    product_map[product] += 1
                 else:
-                    product_count[product] = [(i,j)]
-        
-        # Count tuples (a, b, c, d) where a * b = c * d
-        
-        for pairs in product_count.values():
-            m = len(pairs)
-            for i in range(m):
-                for j in range(i + 1, m):
-                    (a, b), (c, d) = pairs[i], pairs[j]
-                    if a != b and a != c and a != d and b != c and b !=d:
-                        num_of_tuples += 8
-                
-        
-        return num_of_tuples
+                    product_map[product] = 1
+        return count * 8
